@@ -1,13 +1,12 @@
-package com.example.myapplication
+package com.example.myapplication.auth
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.loginejemplo.databinding.ActivityLoginBinding
-import com.example.loginejemplo.main.MainActivity
-import com.example.loginejemplo.utils.PrefManager
-import com.example.loginejemplo.utils.Validator
+import com.example.myapplication.databinding.ActivityLoginBinding
+import com.example.myapplication.main.MainActivity
+import com.example.myapplication.utils.PrefManager
 
 class LoginActivity : AppCompatActivity() {
 
@@ -21,46 +20,40 @@ class LoginActivity : AppCompatActivity() {
 
         prefManager = PrefManager(this)
 
-        setupUI()
-        checkSavedUser()
-    }
-
-    private fun setupUI() {
         binding.apply {
             buttonLogin.setOnClickListener { handleLogin() }
             textViewRegister.setOnClickListener {
                 startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
             }
         }
-    }
 
-    private fun checkSavedUser() {
         if (prefManager.isLoggedIn()) {
             navigateToMain()
         }
     }
 
     private fun handleLogin() {
-        val email = binding.editTextLoginEmail.text.toString().trim()
-        val password = binding.editTextLoginPassword.text.toString().trim()
+        val email = binding.editTextEmail.text.toString().trim()
+        val password = binding.editTextPassword.text.toString().trim()
 
         when {
-            !Validator.isValidEmail(email) -> {
-                binding.editTextLoginEmail.error = "Email inválido"
-                binding.editTextLoginEmail.requestFocus()
+            email.isEmpty() -> {
+                binding.editTextEmail.error = "Email requerido"
+                binding.editTextEmail.requestFocus()
             }
-            password.length < 6 -> {
-                binding.editTextLoginPassword.error = "Mínimo 6 caracteres"
-                binding.editTextLoginPassword.requestFocus()
+            password.isEmpty() -> {
+                binding.editTextPassword.error = "Contraseña requerida"
+                binding.editTextPassword.requestFocus()
             }
-            else -> performLogin(email, password)
+            else -> authenticateUser(email, password)
         }
     }
 
-    private fun performLogin(email: String, password: String) {
-        // Simulación de login - en una app real aquí iría tu API call
+    private fun authenticateUser(email: String, password: String) {
+        // Autenticación de ejemplo (en producción usar Firebase/API)
         if (email == "usuario@ejemplo.com" && password == "123456") {
-            prefManager.saveUser(email, password)
+            prefManager.saveLoginStatus(true)
+            prefManager.saveUserEmail(email)
             navigateToMain()
         } else {
             Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
@@ -71,6 +64,6 @@ class LoginActivity : AppCompatActivity() {
         startActivity(Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         })
-        finish()
+        finish() // Move this outside the apply block
     }
 }
