@@ -1,11 +1,18 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
     namespace = "com.example.myapplication"
-    compileSdk = 34
+    compileSdk = 35
 
+    viewBinding {
+        enable = true
+    }
+    dataBinding {
+        enable = true
+    }
     defaultConfig {
         applicationId = "com.example.myapplication"
         minSdk = 24
@@ -29,12 +36,16 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
 }
 
 dependencies {
 
     implementation(libs.appcompat)
     implementation(libs.material)
+    implementation(libs.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
