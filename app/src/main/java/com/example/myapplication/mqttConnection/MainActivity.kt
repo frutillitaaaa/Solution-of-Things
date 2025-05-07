@@ -7,7 +7,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main_mqtt)
 
         // Configuración del cliente MQTT
         val serverUri = "tcp://test.mosquitto.org:1883" // Broker público para pruebas
