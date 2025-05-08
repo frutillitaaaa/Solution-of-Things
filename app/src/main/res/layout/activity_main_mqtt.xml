@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -15,10 +15,11 @@
         android:textSize="18sp"/>
 
     <Button
-        android:id="@+id/btnConnect"
-        android:layout_width="match_parent"
+        android:id="@+id/buttonPublish"
+        android:layout_width="359dp"
         android:layout_height="wrap_content"
-        android:text="Conectar MQTT"/>
+        android:text="Connectar Mqtt"
+         />
 
     <ScrollView
         android:layout_width="match_parent"
