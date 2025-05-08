@@ -4,11 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityMainMqttBinding
 
 
-
-
-
 // 2. Modifica tu Activity:
-class MainActivity : AppCompatActivity() {
+class MainActivityMqtt : AppCompatActivity() {
     private lateinit var binding: ActivityMainMqttBinding // Cambia por el nombre real de tu binding
     private lateinit var mqttHelper: MqttHelper
 
