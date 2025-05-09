@@ -2,34 +2,55 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/txtStatus"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btnConnect"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Desconectado"
-        android:textColor="#FF0000"
-        android:textSize="18sp"/>
+        android:text="Conectar MQTT" />
+
+    <EditText
+        android:id="@+id/etTopic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tema (topic)"
+        android:inputType="text" />
 
     <Button
-        android:id="@+id/buttonPublish"
-        android:layout_width="359dp"
+        android:id="@+id/btnSubscribe"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Connectar Mqtt"
-         />
+        android:text="Suscribir" />
+
+    <EditText
+        android:id="@+id/etMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mensaje"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/btnPublish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Publicar" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#EFEFEF"
+        android:padding="8dp">
 
         <TextView
-            android:id="@+id/txtLog"
+            android:id="@+id/tvLog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Registro MQTT:\n"/>
+            android:text="Logs de MQTT:\n"
+            android:textIsSelectable="true" />
+
     </ScrollView>
+
 </LinearLayout>
