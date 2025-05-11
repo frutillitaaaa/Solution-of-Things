@@ -3,8 +3,12 @@ package com.example.myapplication.auth
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.myapplication.API.ApiClient
+import com.example.myapplication.auth.models.RegistroRequest
 import com.example.myapplication.databinding.ActivityRegisterBinding
 import com.example.myapplication.utils.Validator
+import kotlinx.coroutines.launch
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -52,9 +56,24 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun completeRegistration(name: String, email: String, password: String) {
+    private fun completeRegistration(name: String, email: String, clave: String) {
         // Aquí iría el registro real en base de datos
-        Toast.makeText(this, "Registro exitoso: $email", Toast.LENGTH_SHORT).show()
-        finish() // Vuelve al LoginActivity
+        val request = RegistroRequest(nombre = name, correo = email, password = clave )
+
+        lifecycleScope.launch {
+            try {
+                val response =  ApiClient.apiService.register(request)
+                if(response.isSuccessful) {
+                    Toast.makeText(this@RegisterActivity, "Registro exitoso: $email", Toast.LENGTH_SHORT).show()
+                    finish() // Vuelve al LoginActivity
+                } else {
+                    Toast.makeText(this@RegisterActivity, "Falló el registro, intente nuevamente", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(this@RegisterActivity, "Error de red", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 }

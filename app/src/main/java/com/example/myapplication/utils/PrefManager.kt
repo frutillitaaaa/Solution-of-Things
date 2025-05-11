@@ -22,4 +22,10 @@ class PrefManager(context: Context) {
     fun clearSession() {
         pref.edit().clear().apply()
     }
+
+    fun saveUserName(name: String) {
+        pref.edit().putString("USER_NAME", name).apply()
+    }
+
+
 }

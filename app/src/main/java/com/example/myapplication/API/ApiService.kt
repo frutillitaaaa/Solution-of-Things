@@ -2,6 +2,8 @@ package com.example.myapplication.API
 
 import com.example.myapplication.auth.models.LoginRequest
 import com.example.myapplication.auth.models.LoginResponse
+import com.example.myapplication.auth.models.RegistroRequest
+import com.example.myapplication.auth.models.RegistroResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
