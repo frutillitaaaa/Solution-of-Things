@@ -6,26 +6,24 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/textWelcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:text="Redes WiFi Disponibles"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginBottom="24dp"/>
+        android:layout_marginBottom="16dp"/>
 
     <Button
-        android:id="@+id/buttonWifiSetup"
+        android:id="@+id/buttonScan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Configurar WiFi"
-        android:drawableStart="@android:drawable/ic_menu_share"
-        android:drawablePadding="8dp"
-        android:padding="16dp"/>
+        android:text="Escanear Redes"
+        android:layout_marginBottom="16dp"/>
 
-    <Button
-        android:id="@+id/buttonLogout"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewNetworks"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cerrar Sesión"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-</LinearLayout>
+</LinearLayout> 

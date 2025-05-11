@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.main.MainActivity
 import com.example.myapplication.utils.PrefManager
+import com.example.myapplication.utils.Validator
 
 class LoginActivity : AppCompatActivity() {
 
@@ -41,8 +42,16 @@ class LoginActivity : AppCompatActivity() {
                 binding.editTextEmail.error = "Email requerido"
                 binding.editTextEmail.requestFocus()
             }
+            !Validator.isValidEmail(email) -> {
+                binding.editTextEmail.error = "Formato de email inválido"
+                binding.editTextEmail.requestFocus()
+            }
             password.isEmpty() -> {
                 binding.editTextPassword.error = "Contraseña requerida"
+                binding.editTextPassword.requestFocus()
+            }
+            !Validator.isValidPassword(password) -> {
+                binding.editTextPassword.error = "La contraseña debe tener al menos 6 caracteres"
                 binding.editTextPassword.requestFocus()
             }
             else -> authenticateUser(email, password)
@@ -50,10 +59,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun authenticateUser(email: String, password: String) {
-        // Autenticación de ejemplo (en producción usar Firebase/API)
-        if (email == "usuario@ejemplo.com" && password == "123456") {
+        // Para desarrollo, permitimos cualquier email válido con contraseña de al menos 6 caracteres
+        if (Validator.isValidEmail(email) && password.length >= 6) {
             prefManager.saveLoginStatus(true)
             prefManager.saveUserEmail(email)
+            Toast.makeText(this, "Login exitoso", Toast.LENGTH_SHORT).show()
             navigateToMain()
         } else {
             Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
@@ -64,6 +74,6 @@ class LoginActivity : AppCompatActivity() {
         startActivity(Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         })
-        finish() // Move this outside the apply block
+        finish()
     }
 }
