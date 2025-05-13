@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         tvLog = findViewById(R.id.tvLog)
 
         // Inicializar MQTT
-        MqttHelper.init(this)
+        MqttHelper.init()
 
         // Botón conectar
         btnConnect.setOnClickListener {
