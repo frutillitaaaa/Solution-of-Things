@@ -8,6 +8,8 @@
     tools:context=".main.MainActivity">
 
     <!-- CONTENIDO PRINCIPAL -->
+
+    <!-- MENÚ LATERAL -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,8 +27,8 @@
             android:id="@+id/tab_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="116dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="108dp"
             android:background="@android:color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
@@ -37,10 +39,13 @@
             app:tabSelectedTextColor="@android:color/white"
             app:tabTextColor="@android:color/black">
 
-            <com.google.android.material.tabs.TabItem android:layout_width="wrap_content"
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Inbox" />
-            <com.google.android.material.tabs.TabItem android:layout_width="wrap_content"
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Historical" />
         </com.google.android.material.tabs.TabLayout>
@@ -60,15 +65,21 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:padding="16dp">
-                <TextView android:layout_width="wrap_content"
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Title"
+                    android:text="CantidadComida"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="14sp" />
-                <TextView android:id="@+id/tv_balance"
+                    android:textSize="14sp"
+                    android:visibility="visible"
+                    tools:text="Cantidad Comida" />
+
+                <TextView
+                    android:id="@+id/tv_balance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -76,7 +87,9 @@
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
                     android:textStyle="bold" />
-                <TextView android:id="@+id/tv_balance_percentage"
+
+                <TextView
+                    android:id="@+id/tv_balance_percentage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -103,12 +116,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
-                <TextView android:layout_width="wrap_content"
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Title"
+                    android:text="Cantidad faltante de Comida"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp" />
-                <TextView android:id="@+id/tv_count"
+
+                <TextView
+                    android:id="@+id/tv_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -116,7 +133,9 @@
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
                     android:textStyle="bold" />
-                <TextView android:id="@+id/tv_count_percentage"
+
+                <TextView
+                    android:id="@+id/tv_count_percentage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -132,15 +151,9 @@
             android:layout_height="239dp"
             android:layout_marginTop="24dp"
             app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-            app:layout_constraintTop_toBottomOf="@+id/card_balance" />
-
-        <Button
-            android:id="@+id/buttonLogout"
-            android:layout_width="115dp"
-            android:layout_height="35dp"
-            android:layout_marginBottom="8dp"
-            android:text="Cerrar Sesión"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation" />
+            app:layout_constraintTop_toBottomOf="@+id/card_balance"
+            app:layout_constraintVertical_bias="0.11"
+            tools:layout_editor_absoluteX="1dp" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
@@ -155,9 +168,16 @@
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar" />
 
+        <ImageView
+            android:id="@+id/imageViewLogo"
+            android:layout_width="95dp"
+            android:layout_height="75dp"
+            android:src="@drawable/mypaws"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="0dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- MENÚ LATERAL -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"

@@ -3,36 +3,80 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:gravity="center"
+    android:padding="24dp"
+    android:background="#FFFFFF">
 
+    <!-- Imagen/logo -->
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/mypaws"
+        android:contentDescription="Logo de MyPaws" />
+
+    <!-- Texto de bienvenida -->
+    <TextView
+        android:id="@+id/textViewWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bienvenido a MyPaws"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="#000000"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Email -->
     <EditText
         android:id="@+id/editTextEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
+        android:layout_marginBottom="12dp"
+        android:hint="Correo electrónico"
+        android:textColor="#000000"
+        android:textColorHint="#777777"
         android:inputType="textEmailAddress"
-        android:layout_marginBottom="8dp"/>
+        android:fontFamily="sans-serif"
+        android:backgroundTint="#6200EE"
+        android:padding="12dp" />
 
+    <!-- Contraseña -->
     <EditText
         android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:hint="Contraseña"
+        android:textColor="#000000"
+        android:textColorHint="#777777"
         android:inputType="textPassword"
-        android:layout_marginBottom="16dp"/>
+        android:backgroundTint="#6200EE"
+        android:fontFamily="sans-serif"
+        android:padding="12dp" />
 
+    <!-- Botón de login -->
     <Button
         android:id="@+id/buttonLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Iniciar Sesión" />
+        android:text="Iniciar Sesión"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:backgroundTint="#6200EE"
+        android:textColor="#000000"
+        android:fontFamily="sans-serif-medium" />
 
+    <!-- Texto para registro -->
     <TextView
         android:id="@+id/textViewRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="¿No tienes cuenta? Regístrate"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:textColor="?attr/colorPrimary"/>
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>
