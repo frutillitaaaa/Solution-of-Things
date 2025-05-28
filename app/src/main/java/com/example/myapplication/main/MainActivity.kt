@@ -11,6 +11,7 @@ import com.example.myapplication.utils.PrefManager
 import com.google.android.material.navigation.NavigationView
 import com.example.myapplication.R
 
+
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding: ActivityMainBinding
