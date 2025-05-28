@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupUI() {
         // Set up welcome message (keeping your existing welcome message)
         val userEmail = prefManager.getUserEmail()
-        binding.tvAppName.text = "MyPaws" // App name in the toolbar
+        //binding.tvAppName.text = "MyPaws" // App name in the toolbar
 
         // Set up the tab selection
         binding.tabLayout.getTabAt(1)?.select() // Select "Historical" tab by default
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         binding.buttonLogout.setOnClickListener { logoutUser() }
 
         // You can also add logout to profile icon if desired
-        binding.ivProfile.setOnClickListener { logoutUser() }
+        //binding.ivProfile.setOnClickListener { logoutUser() }
 
         // Set up bottom navigation default selection
         binding.bottomNavigation.selectedItemId = binding.bottomNavigation.menu.getItem(0).itemId
