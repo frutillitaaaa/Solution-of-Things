@@ -12,7 +12,6 @@ import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.main.MainActivity
 import com.example.myapplication.utils.PrefManager
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 class LoginActivity : AppCompatActivity() {
 
@@ -51,9 +50,18 @@ class LoginActivity : AppCompatActivity() {
                 binding.editTextPassword.error = "Contraseña requerida"
                 binding.editTextPassword.requestFocus()
             }
+            correo == "admin@local" && password == "123456" -> {
+                // Acceso local sin API
+                Toast.makeText(this, "Acceso local exitoso", Toast.LENGTH_SHORT).show()
+                prefManager.saveLoginStatus(true)
+                prefManager.saveUserEmail(correo)
+                prefManager.saveUserName("Administrador Local")
+                navigateToMain()
+            }
             else -> authenticateUser(correo, password)
         }
     }
+
 
     private fun authenticateUser(email: String, clave: String) {
         val request = LoginRequest(correo =email, password =clave)
