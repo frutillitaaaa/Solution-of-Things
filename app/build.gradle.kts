@@ -6,6 +6,11 @@ plugins {
 android {
     namespace = "com.example.myapplication"
     compileSdk = 35
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
 
     viewBinding {
         enable = true
@@ -32,13 +37,10 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
