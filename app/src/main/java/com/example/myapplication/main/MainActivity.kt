@@ -2,6 +2,7 @@ package com.example.myapplication.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -10,6 +11,8 @@ import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.utils.PrefManager
 import com.google.android.material.navigation.NavigationView
 import com.example.myapplication.R
+import com.example.myapplication.main.WifiConfigActivity
+
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -39,8 +42,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.navigationView.setNavigationItemSelectedListener(this)
     }
 
-    override fun onNavigationItemSelected(item: android.view.MenuItem): Boolean {
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.nav_connect -> {
+                startActivity(Intent(this, WifiConfigActivity::class.java))
+            }
             R.id.nav_profile -> {
                 startActivity(Intent(this, ProfileActivity::class.java))
             }
