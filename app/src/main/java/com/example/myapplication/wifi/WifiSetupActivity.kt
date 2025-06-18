@@ -66,12 +66,12 @@ class WifiSetupActivity : AppCompatActivity() {
             showPasswordDialog(ssid)
         }
 
-        binding.recyclerViewNetworks.apply {
+        binding.recyclerViewWifiNetworks.apply {
             layoutManager = LinearLayoutManager(this@WifiSetupActivity)
             adapter = wifiAdapter
         }
 
-        binding.buttonScan.setOnClickListener {
+        binding.buttonConnect.setOnClickListener {
             checkPermissions()
         }
     }

@@ -49,6 +49,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }
+            R.id.nav_pair_device -> {
+                startActivity(Intent(this, com.example.myapplication.wifi.BluetoothScanActivity::class.java))
+            }
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
