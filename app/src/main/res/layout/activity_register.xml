@@ -2,48 +2,101 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="24dp"
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
+        <!-- Imagen/logo -->
+        <ImageView
+            android:id="@+id/imageViewLogoRegister"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginBottom="24dp"
+            android:src="@drawable/mypaws"
+            android:contentDescription="Logo de MyPaws" />
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/textViewRegisterTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crear una cuenta"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="sans-serif-medium" />
+
+        <!-- Nombre -->
         <EditText
             android:id="@+id/editTextName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nombre completo"
-            android:layout_marginBottom="8dp"/>
+            android:textColor="#000000"
+            android:textColorHint="#777777"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#6200EE"
+            android:padding="12dp"
+            android:fontFamily="sans-serif" />
 
+        <!-- Email -->
         <EditText
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:hint="Correo electrónico"
             android:inputType="textEmailAddress"
-            android:layout_marginBottom="8dp"/>
+            android:textColor="#000000"
+            android:textColorHint="#777777"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#6200EE"
+            android:padding="12dp"
+            android:fontFamily="sans-serif" />
 
+        <!-- Contraseña -->
         <EditText
             android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Contraseña"
             android:inputType="textPassword"
-            android:layout_marginBottom="8dp"/>
+            android:textColor="#000000"
+            android:textColorHint="#777777"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#6200EE"
+            android:padding="12dp"
+            android:fontFamily="sans-serif" />
 
+        <!-- Confirmar contraseña -->
         <EditText
             android:id="@+id/editTextConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Confirmar Contraseña"
             android:inputType="textPassword"
-            android:layout_marginBottom="16dp"/>
+            android:textColor="#000000"
+            android:textColorHint="#777777"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="#6200EE"
+            android:padding="12dp"
+            android:fontFamily="sans-serif" />
 
+        <!-- Botón de registro -->
         <Button
             android:id="@+id/buttonRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Registrarse"/>
+            android:text="Registrarse"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:backgroundTint="#6200EE"
+            android:fontFamily="sans-serif-medium" />
     </LinearLayout>
 </ScrollView>

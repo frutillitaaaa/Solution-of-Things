@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_profile"
+        android:title="Ver perfil"
+        android:icon="@drawable/profileicon" />
+    <item
+        android:id="@+id/nav_logout"
+        android:title="Cerrar sesión"
+        android:icon="@drawable/logout_icon" />
+    <item
+        android:id="@+id/nav_pair_device"
+        android:title="Emparejar Dispositivo"
+        android:icon="@drawable/ic_wifi" />
+</menu>
