@@ -26,12 +26,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Solution-of-Things"
-include(":app")
-
-// Configuración de propiedades del proyecto
-gradle.beforeProject { project ->
-    project.extensions.extraProperties.set("kotlin.code.style", "official")
-    project.extensions.extraProperties.set("android.useAndroidX", true)
-    project.extensions.extraProperties.set("android.enableJetifier", true)
-}
- 
+include(":app") 
