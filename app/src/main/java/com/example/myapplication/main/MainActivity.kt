@@ -10,6 +10,11 @@ import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.utils.PrefManager
 import com.google.android.material.navigation.NavigationView
 import com.example.myapplication.R
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.content.Context
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -63,5 +68,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else {
             super.onBackPressed()
         }
+    }
+
+    private fun isWifiConnected(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
     }
 }

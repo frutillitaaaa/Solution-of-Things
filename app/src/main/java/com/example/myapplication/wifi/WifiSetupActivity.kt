@@ -23,6 +23,11 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.net.wifi.WifiNetworkSpecifier
 import android.net.ConnectivityManager
+import android.os.Handler
+import android.os.Looper
+import android.content.Intent
+import com.example.myapplication.main.MainActivity
+import androidx.appcompat.app.AlertDialog
 
 class WifiSetupActivity : AppCompatActivity() {
 
@@ -37,6 +42,8 @@ class WifiSetupActivity : AppCompatActivity() {
         .build()
     private var selectedSsid: String? = null
     private var selectedPassword: String? = null
+    private var firstPermissionCheck = true
+    private var lastNetwork: Network? = null
 
     private val wifiPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -88,7 +95,13 @@ class WifiSetupActivity : AppCompatActivity() {
         }.toTypedArray()
 
         if (permissionsToRequest.isNotEmpty()) {
-            wifiPermissionLauncher.launch(permissionsToRequest)
+            if (firstPermissionCheck) {
+                firstPermissionCheck = false
+                wifiPermissionLauncher.launch(permissionsToRequest)
+            } else {
+                Toast.makeText(this, "Se requieren permisos de WiFi", Toast.LENGTH_LONG).show()
+                finish()
+            }
         } else {
             scanWifiNetworks()
         }
@@ -97,7 +110,7 @@ class WifiSetupActivity : AppCompatActivity() {
     private fun scanWifiNetworks() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             wifiManager.startScan()
-            val results = wifiManager.scanResults
+            val results = wifiManager.scanResults.filter { it.SSID.isNotEmpty() }
             wifiAdapter.submitList(results)
         }
     }
@@ -127,10 +140,13 @@ class WifiSetupActivity : AppCompatActivity() {
             override fun onAvailable(network: Network) {
                 super.onAvailable(network)
                 connectivityManager.bindProcessToNetwork(network)
+                lastNetwork = network
                 runOnUiThread {
-                    Toast.makeText(this@WifiSetupActivity, "Conectado al AP del PetFeeder", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@WifiSetupActivity, "Conectado al AP del PetFeeder. Enviando credenciales en 1.5 segundos...", Toast.LENGTH_SHORT).show()
                 }
-                sendWifiCredentialsToEsp32()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    sendWifiCredentialsToEsp32WithNetwork(network)
+                }, 1500)
             }
             override fun onUnavailable() {
                 super.onUnavailable()
@@ -143,21 +159,27 @@ class WifiSetupActivity : AppCompatActivity() {
         connectivityManager.requestNetwork(networkRequest, networkCallback)
     }
 
-    private fun sendWifiCredentialsToEsp32() {
+    private fun sendWifiCredentialsToEsp32WithNetwork(network: Network) {
         val ssid = selectedSsid ?: return
         val password = selectedPassword ?: return
 
         val json = JSONObject().apply {
             put("ssid", ssid)
             put("password", password)
-        }
+        }.toString()
+
+        // Toast.makeText(this, "Enviando JSON: $json", Toast.LENGTH_LONG).show()
+
+        val client = OkHttpClient.Builder()
+            .socketFactory(network.socketFactory)
+            .build()
 
         val request = Request.Builder()
             .url("http://192.168.4.1/wifi")
-            .post(RequestBody.create("application/json".toMediaTypeOrNull(), json.toString()))
+            .post(RequestBody.create("application/json".toMediaTypeOrNull(), json))
             .build()
 
-        httpClient.newCall(request).enqueue(object : Callback {
+        client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
                     Toast.makeText(this@WifiSetupActivity, "Error de conexión: ${e.message}", Toast.LENGTH_LONG).show()
@@ -167,8 +189,33 @@ class WifiSetupActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 runOnUiThread {
                     if (response.isSuccessful) {
-                        Toast.makeText(this@WifiSetupActivity, "Credenciales enviadas correctamente", Toast.LENGTH_LONG).show()
-                        finish()
+                        val prefs = getSharedPreferences("petfeeder_prefs", Context.MODE_PRIVATE)
+                        prefs.edit().putBoolean("petfeeder_paired", true).apply()
+                        var secondsLeft = 3
+                        val dialog = AlertDialog.Builder(this@WifiSetupActivity)
+                            .setTitle("¡PetFeeder conectado exitosamente!")
+                            .setMessage("Redirigiendo en $secondsLeft...")
+                            .setCancelable(false)
+                            .create()
+                        dialog.show()
+                        object : Thread() {
+                            override fun run() {
+                                for (i in 2 downTo 1) {
+                                    sleep(1000)
+                                    secondsLeft = i
+                                    runOnUiThread {
+                                        dialog.setMessage("Redirigiendo en $secondsLeft...")
+                                    }
+                                }
+                                sleep(1000)
+                                runOnUiThread {
+                                    dialog.dismiss()
+                                    val intent = Intent(this@WifiSetupActivity, MainActivity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    startActivity(intent)
+                                }
+                            }
+                        }.start()
                     } else {
                         Toast.makeText(this@WifiSetupActivity, "Error al enviar credenciales: ${response.code}", Toast.LENGTH_LONG).show()
                     }
