@@ -45,8 +45,9 @@ dependencies {
 
     //Mqtt service
     implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
+    implementation("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1")
     //implementation ("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1")
-    implementation("com.android.support:support-v4:28.0.0")
+    //implementation("com.android.support:support-v4:28.0.0")
     implementation ("androidx.work:work-runtime-ktx:2.7.1")
     implementation ("androidx.core:core-ktx:1.10.1")
 
