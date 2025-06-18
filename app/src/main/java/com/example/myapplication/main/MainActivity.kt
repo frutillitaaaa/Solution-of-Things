@@ -57,6 +57,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_pair_device -> {
                 startActivity(Intent(this, com.example.myapplication.wifi.BluetoothScanActivity::class.java))
             }
+            R.id.nav_mqtt_subscriptions -> {
+                startActivity(Intent(this, com.example.myapplication.mqtt.MqttSubscriptionsActivity::class.java))
+            }
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true

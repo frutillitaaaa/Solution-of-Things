@@ -7,4 +7,28 @@
     <string name="navigation_drawer_open">Abrir menú</string>
     <string name="navigation_drawer_close">Cerrar menú</string>
     <string name="correo_electr_nico">Correo electrónico</string>
+    
+    <!-- MQTT Strings -->
+    <string name="mqtt_subscriptions">Suscripciones MQTT</string>
+    <string name="mqtt_add_subscription">Nueva Suscripción</string>
+    <string name="mqtt_topic">Tópico MQTT</string>
+    <string name="mqtt_qos">Calidad de Servicio (QoS)</string>
+    <string name="mqtt_subscribe">Suscribirse</string>
+    <string name="mqtt_unsubscribe">Desuscribirse</string>
+    <string name="mqtt_cancel">Cancelar</string>
+    <string name="mqtt_close">Cerrar</string>
+    <string name="mqtt_subscription_details">Detalles de Suscripción</string>
+    <string name="mqtt_no_subscriptions">No hay suscripciones activas\nToca el botón + para agregar una nueva</string>
+    <string name="mqtt_connected">Conectado al broker MQTT</string>
+    <string name="mqtt_connection_error">Error de conexión</string>
+    <string name="mqtt_subscription_success">Suscrito a %s</string>
+    <string name="mqtt_unsubscription_success">Desuscrito de %s</string>
+    <string name="mqtt_connection_lost">Conexión perdida</string>
+    <string name="mqtt_please_enter_topic">Por favor ingresa un tópico</string>
+    
+    <string-array name="qos_levels">
+        <item>QoS 0 - Máximo una vez</item>
+        <item>QoS 1 - Al menos una vez</item>
+        <item>QoS 2 - Exactamente una vez</item>
+    </string-array>
 </resources>
