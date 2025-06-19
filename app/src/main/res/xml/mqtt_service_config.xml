@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<service-config>
-    <service>
-        <name>org.eclipse.paho.android.service.MqttService</name>
-        <class>org.eclipse.paho.android.service.MqttService</class>
-        <permission>android.permission.WAKE_LOCK</permission>
-    </service>
-</service-config> 

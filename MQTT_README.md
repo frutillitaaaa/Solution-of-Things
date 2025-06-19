@@ -1,7 +1,7 @@
 # Funcionalidad MQTT - Mosquito Prueba
 
 ## Descripción
-Esta nueva funcionalidad permite conectarse a un broker MQTT y enviar suscripciones a tu ESP32. La implementación utiliza la librería Eclipse Paho MQTT para Android.
+Esta nueva funcionalidad permite conectarse a un broker MQTT y enviar suscripciones a tu ESP32. La implementación utiliza la librería **HiveMQ MQTT Client** para Android, que es una alternativa moderna y eficiente a Eclipse Paho.
 
 ## Características
 - Conexión a broker MQTT personalizable
@@ -10,6 +10,8 @@ Esta nueva funcionalidad permite conectarse a un broker MQTT y enviar suscripcio
 - Interfaz de usuario intuitiva
 - Log de mensajes en tiempo real
 - Estado de conexión visible
+- Soporte completo para MQTT 5.0
+- Manejo asíncrono de operaciones
 
 ## Configuración por defecto
 - **Broker MQTT**: `tcp://192.168.4.1:1883` (IP típica del ESP32 en modo AP)
@@ -101,7 +103,16 @@ void loop() {
 ## Permisos requeridos
 La aplicación requiere los siguientes permisos:
 - `INTERNET`: Para conectarse al broker MQTT
-- `WAKE_LOCK`: Para mantener la conexión MQTT activa
+
+## Ventajas de HiveMQ MQTT Client
+
+### Comparado con Eclipse Paho:
+- **Más ligero**: Menor tamaño de librería
+- **Mejor rendimiento**: Operaciones asíncronas más eficientes
+- **MQTT 5.0**: Soporte completo para la versión más reciente del protocolo
+- **Sin dependencias externas**: No requiere servicios adicionales
+- **API más moderna**: Uso de CompletableFuture y lambdas
+- **Mejor manejo de errores**: Callbacks más claros y específicos
 
 ## Solución de problemas
 
@@ -120,7 +131,9 @@ La aplicación requiere los siguientes permisos:
 - Revisa los logs de Android para errores específicos
 
 ## Notas técnicas
-- La implementación utiliza Eclipse Paho MQTT v3.1.1
+- La implementación utiliza HiveMQ MQTT Client v1.3.0
+- Soporte completo para MQTT 5.0
 - Los mensajes se envían con QoS 0 (at most once)
 - La conexión se mantiene activa con keep-alive de 60 segundos
-- El timeout de conexión es de 30 segundos 
+- Operaciones completamente asíncronas
+- No requiere servicios de Android adicionales 
