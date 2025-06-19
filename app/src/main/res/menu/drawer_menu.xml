@@ -12,4 +12,8 @@
         android:id="@+id/nav_pair_device"
         android:title="Emparejar Dispositivo"
         android:icon="@drawable/ic_wifi" />
+    <item
+        android:id="@+id/nav_mqtt"
+        android:title="MQTT"
+        android:icon="@drawable/ic_mqtt" />
 </menu>

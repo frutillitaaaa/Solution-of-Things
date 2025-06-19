@@ -15,6 +15,7 @@ import android.net.NetworkCapabilities
 import android.content.Context
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.example.myapplication.mqtt.MqttActivity
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -56,6 +57,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_pair_device -> {
                 startActivity(Intent(this, com.example.myapplication.wifi.BluetoothScanActivity::class.java))
+            }
+            R.id.nav_mqtt -> {
+                startActivity(Intent(this, MqttActivity::class.java))
             }
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
