@@ -1,18 +1,19 @@
 package com.example.myapplication.mqtt
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
+import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.*
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
-import java.util.*
 
 class MqttActivity : AppCompatActivity() {
-    private var mqttClient: MqttClient? = null
+
+    private lateinit var mqttClient: MqttAndroidClient
     private lateinit var serverUri: EditText
     private lateinit var topic: EditText
     private lateinit var message: EditText
@@ -21,6 +22,8 @@ class MqttActivity : AppCompatActivity() {
     private lateinit var subscribeButton: Button
     private lateinit var statusText: TextView
     private lateinit var receivedMessagesText: TextView
+
+    private val TAG = "MqttActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,74 +45,114 @@ class MqttActivity : AppCompatActivity() {
     }
 
     private fun connectToServer() {
+        val serverURIString = serverUri.text.toString()
+        if (serverURIString.isBlank()) {
+            Toast.makeText(this, "Por favor, ingrese la URI del servidor", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val clientId = MqttClient.generateClientId()
+        mqttClient = MqttAndroidClient(this.applicationContext, serverURIString, clientId)
+
+        mqttClient.setCallback(object : MqttCallbackExtended {
+            override fun connectComplete(reconnect: Boolean, serverURI: String?) {
+                statusText.text = "Conectado"
+                Log.i(TAG, "connectComplete")
+            }
+
+            override fun connectionLost(cause: Throwable?) {
+                statusText.text = "Conexión perdida"
+                Log.w(TAG, "connectionLost", cause)
+            }
+
+            override fun messageArrived(topic: String?, message: MqttMessage?) {
+                message?.let {
+                    val msg = "Tópico: $topic\nMensaje: ${it.toString()}"
+                    Log.i(TAG, msg)
+                    val currentText = receivedMessagesText.text.toString()
+                    receivedMessagesText.text = if (currentText.isEmpty()) it.toString() else "$currentText\n${it.toString()}"
+                }
+            }
+
+            override fun deliveryComplete(token: IMqttDeliveryToken?) {
+                Log.i(TAG, "deliveryComplete")
+            }
+        })
+
+        val options = MqttConnectOptions()
+        options.isCleanSession = true
+
         try {
-            val clientId = "AndroidClient-" + UUID.randomUUID().toString()
-            mqttClient = MqttClient(
-                serverUri.text.toString(),
-                clientId,
-                MemoryPersistence()
-            )
-
-            val options = MqttConnectOptions()
-            options.isCleanSession = true
-
             statusText.text = "Conectando..."
-            mqttClient?.connect(options)
-            statusText.text = "Conectado"
-            Toast.makeText(this, "Conectado al servidor MQTT", Toast.LENGTH_SHORT).show()
+            mqttClient.connect(options, null, object : IMqttActionListener {
+                override fun onSuccess(asyncActionToken: IMqttToken?) {
+                    statusText.text = "Conectado"
+                    Toast.makeText(this@MqttActivity, "Conectado al servidor MQTT", Toast.LENGTH_SHORT).show()
+                }
 
+                override fun onFailure(asyncActionToken: IMqttToken?, exception: Throwable?) {
+                    statusText.text = "Error de conexión: ${exception?.message}"
+                    Toast.makeText(this@MqttActivity, "Error al conectar: ${exception?.message}", Toast.LENGTH_SHORT).show()
+                    Log.w(TAG, "connect onFailure", exception)
+                }
+            })
         } catch (e: MqttException) {
             e.printStackTrace()
-            statusText.text = "Error: ${e.message}"
-            Toast.makeText(this, "Error al conectar: ${e.message}", Toast.LENGTH_SHORT).show()
+            Log.e(TAG, "connect error", e)
         }
     }
 
     private fun publishMessage() {
+        if (!::mqttClient.isInitialized || !mqttClient.isConnected) {
+            Toast.makeText(this, "No conectado al servidor", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         try {
-            mqttClient?.let { client ->
-                if (client.isConnected) {
-                    val mqttMessage = MqttMessage(message.text.toString().toByteArray())
-                    client.publish(topic.text.toString(), mqttMessage)
-                    Toast.makeText(this, "Mensaje publicado", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "No conectado al servidor", Toast.LENGTH_SHORT).show()
+            val mqttMessage = MqttMessage(message.text.toString().toByteArray())
+            mqttClient.publish(topic.text.toString(), mqttMessage, null, object : IMqttActionListener {
+                override fun onSuccess(asyncActionToken: IMqttToken?) {
+                    Toast.makeText(this@MqttActivity, "Mensaje publicado", Toast.LENGTH_SHORT).show()
                 }
-            }
+
+                override fun onFailure(asyncActionToken: IMqttToken?, exception: Throwable?) {
+                    Toast.makeText(this@MqttActivity, "Error al publicar: ${exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
         } catch (e: MqttException) {
             e.printStackTrace()
-            Toast.makeText(this, "Error al publicar: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun subscribeTopic() {
+        if (!::mqttClient.isInitialized || !mqttClient.isConnected) {
+            Toast.makeText(this, "No conectado al servidor", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         try {
-            mqttClient?.let { client ->
-                if (client.isConnected) {
-                    client.subscribe(topic.text.toString()) { _, message ->
-                        runOnUiThread {
-                            val currentText = receivedMessagesText.text.toString()
-                            val newMessage = String(message.payload)
-                            receivedMessagesText.text = "$currentText\n$newMessage"
-                        }
-                    }
-                    Toast.makeText(this, "Suscrito al tópico", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "No conectado al servidor", Toast.LENGTH_SHORT).show()
+            mqttClient.subscribe(topic.text.toString(), 1, null, object : IMqttActionListener {
+                override fun onSuccess(asyncActionToken: IMqttToken?) {
+                    Toast.makeText(this@MqttActivity, "Suscrito al tópico", Toast.LENGTH_SHORT).show()
                 }
-            }
+
+                override fun onFailure(asyncActionToken: IMqttToken?, exception: Throwable?) {
+                    Toast.makeText(this@MqttActivity, "Error al suscribirse: ${exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
         } catch (e: MqttException) {
             e.printStackTrace()
-            Toast.makeText(this, "Error al suscribirse: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        try {
-            mqttClient?.disconnect()
-        } catch (e: MqttException) {
-            e.printStackTrace()
+        if (::mqttClient.isInitialized && mqttClient.isConnected) {
+            try {
+                mqttClient.disconnect()
+            } catch (e: MqttException) {
+                e.printStackTrace()
+            }
         }
     }
 } 
