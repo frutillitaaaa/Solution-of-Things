@@ -1,20 +1,21 @@
 # Funcionalidad MQTT - Mosquito Prueba
 
 ## Descripción
-Esta nueva funcionalidad permite conectarse a un broker MQTT y enviar suscripciones a tu ESP32. La implementación utiliza la librería **HiveMQ MQTT Client** para Android, que es una alternativa moderna y eficiente a Eclipse Paho.
+Esta nueva funcionalidad permite conectarse a un broker MQTT y enviar suscripciones a tu ESP32. La implementación utiliza **WebSockets con OkHttp** para establecer la conexión MQTT, proporcionando una solución ligera y confiable sin dependencias externas complejas.
 
 ## Características
-- Conexión a broker MQTT personalizable
+- Conexión a broker MQTT a través de WebSockets
 - Publicación de mensajes a tópicos específicos
 - Suscripción a tópicos para recibir mensajes
 - Interfaz de usuario intuitiva
 - Log de mensajes en tiempo real
 - Estado de conexión visible
-- Soporte completo para MQTT 5.0
-- Manejo asíncrono de operaciones
+- Implementación ligera sin dependencias externas
+- Manejo robusto de conexiones
 
 ## Configuración por defecto
 - **Broker MQTT**: `tcp://192.168.4.1:1883` (IP típica del ESP32 en modo AP)
+- **WebSocket**: `ws://192.168.4.1:2883` (puerto WebSocket automático)
 - **Cliente ID**: `AndroidClient`
 - **Tópico por defecto**: `test/topic`
 - **Mensaje por defecto**: `Hola ESP32!`
@@ -104,22 +105,28 @@ void loop() {
 La aplicación requiere los siguientes permisos:
 - `INTERNET`: Para conectarse al broker MQTT
 
-## Ventajas de HiveMQ MQTT Client
+## Ventajas de WebSockets con OkHttp
 
-### Comparado con Eclipse Paho:
-- **Más ligero**: Menor tamaño de librería
-- **Mejor rendimiento**: Operaciones asíncronas más eficientes
-- **MQTT 5.0**: Soporte completo para la versión más reciente del protocolo
+### Comparado con librerías MQTT tradicionales:
+- **Más ligero**: Solo OkHttp como dependencia
+- **Más confiable**: OkHttp es una librería muy estable y probada
 - **Sin dependencias externas**: No requiere servicios adicionales
-- **API más moderna**: Uso de CompletableFuture y lambdas
-- **Mejor manejo de errores**: Callbacks más claros y específicos
+- **API familiar**: WebSockets estándar
+- **Mejor manejo de errores**: Timeouts y reconexión automática
+- **Compatible**: Funciona con cualquier broker MQTT que soporte WebSockets
+
+## Conversión automática de puertos
+La aplicación convierte automáticamente los puertos MQTT a WebSockets:
+- MQTT TCP (1883) → WebSocket (2883)
+- MQTT SSL (8883) → WebSocket Seguro (9883)
 
 ## Solución de problemas
 
 ### Error de conexión
 - Verifica que la dirección del broker sea correcta
 - Asegúrate de que el ESP32 esté funcionando como broker MQTT
-- Verifica la conectividad de red
+- Verifica que el broker soporte WebSockets
+- Comprueba la conectividad de red
 
 ### Mensajes no recibidos
 - Verifica que estés suscrito al tópico correcto
@@ -131,9 +138,8 @@ La aplicación requiere los siguientes permisos:
 - Revisa los logs de Android para errores específicos
 
 ## Notas técnicas
-- La implementación utiliza HiveMQ MQTT Client v1.3.0
-- Soporte completo para MQTT 5.0
-- Los mensajes se envían con QoS 0 (at most once)
-- La conexión se mantiene activa con keep-alive de 60 segundos
-- Operaciones completamente asíncronas
+- La implementación utiliza OkHttp v4.12.0
+- Conexión WebSocket con timeout de 30 segundos
+- Manejo automático de reconexión
+- Formato de mensaje MQTT simplificado para compatibilidad
 - No requiere servicios de Android adicionales 

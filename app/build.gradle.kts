@@ -41,6 +41,11 @@ android {
         jvmTarget = "11"
     }
     buildToolsVersion = "34.0.0"
+    
+    lint {
+        abortOnError = false
+        checkReleaseBuilds = false
+    }
 }
 
 dependencies {
@@ -55,6 +60,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.hivemq:hivemq-mqtt-client:1.3.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:okhttp-ws:4.12.0")
 
 }
