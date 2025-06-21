@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Configuración MQTT"
+        android:text="🍽️ PetFeeder MQTT Control"
         android:textSize="24sp"
         android:textStyle="bold"
         android:gravity="center"
@@ -106,6 +106,83 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Suscribirse"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Nueva sección para control del comedero -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#CCCCCC"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🍽️ Control del Comedero"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:id="@+id/btnFeed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="🍽️ 1 Porción"
+            android:layout_marginEnd="4dp" />
+
+        <Button
+            android:id="@+id/btnFeedMultiple"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="🍽️ Múltiples"
+            android:layout_marginStart="4dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:id="@+id/btnOpenFeeder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="🔓 Abrir"
+            android:layout_marginEnd="4dp" />
+
+        <Button
+            android:id="@+id/btnCloseFeeder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="🔒 Cerrar"
+            android:layout_marginStart="4dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnFeederStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📊 Estado del Comedero"
+        android:layout_marginBottom="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#CCCCCC"
         android:layout_marginBottom="16dp" />
 
     <TextView

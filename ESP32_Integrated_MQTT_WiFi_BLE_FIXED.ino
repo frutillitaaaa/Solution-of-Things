@@ -32,7 +32,7 @@
 // Configuración MQTT
 const char* mqtt_server = "test.mosquitto.org";
 const int mqtt_port = 1883;
-const char* client_id = "PetFeeder_ESP32";
+String clientId = "PetFeeder_ESP32_";
 
 // Tópicos MQTT
 const char* topic_test = "test/topic";
@@ -160,9 +160,10 @@ void connectMQTT() {
     return;
   }
   
-  Serial.print("🔗 Conectando a MQTT...");
+  Serial.print("🔗 Conectando a MQTT con Client ID: ");
+  Serial.println(clientId);
   
-  if (mqttClient.connect(client_id)) {
+  if (mqttClient.connect(clientId.c_str())) {
     Serial.println("✅ Conectado a MQTT");
     mqttConnected = true;
     
@@ -350,6 +351,10 @@ void setup() {
   Serial.println("\n=== PetFeeder ESP32 Integrado ===");
   Serial.println("WiFi + BLE + MQTT para MyPaws");
   
+  // Crear Client ID único usando la dirección MAC
+  clientId += WiFi.macAddress();
+  clientId.replace(":", ""); // Remover los dos puntos de la MAC
+
   pinMode(LED_PIN, OUTPUT);
   pinMode(BOOT_BUTTON, INPUT_PULLUP);
   digitalWrite(LED_PIN, LOW);
