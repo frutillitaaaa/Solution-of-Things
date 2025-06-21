@@ -42,17 +42,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         binding.navigationView.setNavigationItemSelectedListener(this)
+
+        val logoutButton = binding.navigationView.findViewById<TextView>(R.id.nav_logout_footer)
+        logoutButton.setOnClickListener {
+            prefManager.clearSession()
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
     }
 
     override fun onNavigationItemSelected(item: android.view.MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_profile -> {
                 startActivity(Intent(this, ProfileActivity::class.java))
-            }
-            R.id.nav_logout -> {
-                prefManager.clearSession()
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
             }
             R.id.nav_pair_device -> {
                 startActivity(Intent(this, com.example.myapplication.wifi.BluetoothScanActivity::class.java))

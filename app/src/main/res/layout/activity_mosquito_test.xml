@@ -24,7 +24,7 @@
             android:id="@+id/etBroker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="tcp://192.168.4.1:1883" />
+            android:text="tcp://test.mosquitto.org:1883" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -141,6 +141,7 @@
             android:layout_height="wrap_content"
             android:background="#F5F5F5"
             android:padding="8dp"
+            android:textColor="@android:color/black"
             android:textSize="12sp" />
 
     </ScrollView>

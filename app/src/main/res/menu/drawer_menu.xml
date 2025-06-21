@@ -5,15 +5,11 @@
         android:title="Ver perfil"
         android:icon="@drawable/profileicon" />
     <item
-        android:id="@+id/nav_logout"
-        android:title="Cerrar sesión"
-        android:icon="@drawable/logout_icon" />
-    <item
         android:id="@+id/nav_pair_device"
         android:title="Emparejar Dispositivo"
         android:icon="@drawable/ic_wifi" />
     <item
         android:id="@+id/nav_mosquito_test"
-        android:title="Mosquito Prueba"
+        android:title="Mosquitto Prueba"
         android:icon="@drawable/ic_mqtt" />
 </menu>
