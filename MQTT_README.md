@@ -14,8 +14,8 @@ Esta nueva funcionalidad permite conectarse a un broker MQTT y enviar suscripcio
 - Manejo robusto de conexiones
 
 ## Configuración por defecto
-- **Broker MQTT**: `tcp://192.168.4.1:1883` (IP típica del ESP32 en modo AP)
-- **WebSocket**: `ws://192.168.4.1:2883` (puerto WebSocket automático)
+- **Broker MQTT**: `tcp://test.mosquitto.org:1883` (Broker público de prueba)
+- **WebSocket**: `ws://test.mosquitto.org:8080` (puerto WebSocket automático)
 - **Cliente ID**: `AndroidClient`
 - **Tópico por defecto**: `test/topic`
 - **Mensaje por defecto**: `Hola ESP32!`
@@ -48,7 +48,7 @@ Esta nueva funcionalidad permite conectarse a un broker MQTT y enviar suscripcio
 - Presiona "Desconectar" para cerrar la conexión MQTT
 
 ## Configuración del ESP32
-Para que tu ESP32 reciba los mensajes MQTT, asegúrate de que esté configurado como broker MQTT o conectado a uno. Ejemplo básico de configuración:
+Para que tu ESP32 reciba los mensajes MQTT, asegúrate de que esté configurado para conectarse al broker público. Ejemplo básico de configuración:
 
 ```cpp
 #include <WiFi.h>
@@ -56,7 +56,7 @@ Para que tu ESP32 reciba los mensajes MQTT, asegúrate de que esté configurado 
 
 const char* ssid = "TuWiFi";
 const char* password = "TuPassword";
-const char* mqtt_server = "192.168.4.1";
+const char* mqtt_server = "test.mosquitto.org";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -123,8 +123,8 @@ La aplicación convierte automáticamente los puertos MQTT a WebSockets:
 ## Solución de problemas
 
 ### Error de conexión
-- Verifica que la dirección del broker sea correcta
-- Asegúrate de que el ESP32 esté funcionando como broker MQTT
+- Verifica que tengas conexión a internet
+- Asegúrate de que la dirección del broker sea correcta (test.mosquitto.org)
 - Verifica que el broker soporte WebSockets
 - Comprueba la conectividad de red
 
