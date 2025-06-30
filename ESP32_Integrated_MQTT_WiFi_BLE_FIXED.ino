@@ -24,6 +24,9 @@
 // Configuración de pines
 #define LED_PIN 2
 #define BOOT_BUTTON 0
+#define IN1 26 // Control del motor
+#define IN2 27
+#define ENA 25 // PWM para velocidad
 
 // Configuración BLE
 #define SERVICE_UUID        "6e400001-b5a3-f393-e0a9-e50e24dcca9e"
@@ -40,6 +43,7 @@ const char* topic_response = "test/response";
 const char* topic_led = "esp32/led";
 const char* topic_status = "petfeeder/status";
 const char* topic_config = "petfeeder/config";
+const char* topic_motor = "esp32/motor";
 
 // Variables globales
 WebServer server(80);
@@ -92,6 +96,8 @@ void mqttCallback(char* topic, byte* payload, unsigned int length) {
     handleLedMessage(message);
   } else if (String(topic) == topic_config) {
     handleConfigMessage(message);
+  } else if (String(topic) == topic_motor) {
+    handleMotorMessage(message);
   }
 }
 
@@ -153,6 +159,19 @@ void handleConfigMessage(String message) {
   mqttClient.publish("petfeeder/config/response", response.c_str());
 }
 
+// Manejar mensajes de motor
+void handleMotorMessage(String message) {
+  if (message.equalsIgnoreCase("GIRO")) {
+    Serial.println("🔄 Girando motor 3 segundos...");
+    digitalWrite(IN1, HIGH);
+    digitalWrite(IN2, LOW);
+    analogWrite(ENA, 200); // Velocidad (0-255)
+    delay(3000);
+    analogWrite(ENA, 0);
+    Serial.println("⏹️ Motor detenido");
+  }
+}
+
 // Conectar a MQTT
 void connectMQTT() {
   if (!wifiConnected) {
@@ -170,11 +189,13 @@ void connectMQTT() {
     mqttClient.subscribe(topic_test);
     mqttClient.subscribe(topic_led);
     mqttClient.subscribe(topic_config);
+    mqttClient.subscribe(topic_motor);
     
     Serial.println("📡 Suscrito a tópicos:");
     Serial.println("  - " + String(topic_test));
     Serial.println("  - " + String(topic_led));
     Serial.println("  - " + String(topic_config));
+    Serial.println("  - " + String(topic_motor));
     
     // Publicar mensaje de conexión
     mqttClient.publish(topic_status, "PetFeeder ESP32 conectado y listo");
@@ -353,6 +374,9 @@ void setup() {
   pinMode(LED_PIN, OUTPUT);
   pinMode(BOOT_BUTTON, INPUT_PULLUP);
   digitalWrite(LED_PIN, LOW);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(ENA, OUTPUT);
 
   // Intentar conectar WiFi
   bool wifiSuccess = intentarConexionWiFi();

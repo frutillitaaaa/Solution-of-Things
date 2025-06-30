@@ -108,6 +108,14 @@
         android:text="Suscribirse"
         android:layout_marginBottom="16dp" />
 
+    <Button
+        android:id="@+id/btnGirarMotor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Girar motor (3 segundos)"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

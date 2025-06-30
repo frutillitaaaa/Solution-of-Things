@@ -28,6 +28,7 @@ class MosquitoTestActivity : AppCompatActivity() {
         binding.btnDisconnect.setOnClickListener { disconnectFromMqtt() }
         binding.btnPublish.setOnClickListener { publishMessage() }
         binding.btnSubscribe.setOnClickListener { subscribeToTopic() }
+        binding.btnGirarMotor.setOnClickListener { girarMotor() }
     }
 
     private fun connectToMqtt() {
@@ -181,6 +182,33 @@ class MosquitoTestActivity : AppCompatActivity() {
 
                 override fun onFailure(asyncActionToken: IMqttToken?, exception: Throwable?) {
                     addMessage("Error al suscribirse a '$topic'")
+                }
+            })
+        } catch (e: MqttException) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun girarMotor() {
+        if (!isConnected) {
+            Toast.makeText(this, "No estás conectado al broker", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val topic = "esp32/motor"
+        val messageText = "GIRO"
+        try {
+            val message = MqttMessage()
+            message.payload = messageText.toByteArray()
+            message.qos = 1
+            message.isRetained = false
+            mqttClient.publish(topic, message, null, object : IMqttActionListener {
+                override fun onSuccess(asyncActionToken: IMqttToken?) {
+                    val timestamp = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
+                    val sentMessage = "[$timestamp] Enviado a '$topic': $messageText"
+                    addMessage(sentMessage)
+                }
+                override fun onFailure(asyncActionToken: IMqttToken?, exception: Throwable?) {
+                    addMessage("Error al enviar a '$topic'")
                 }
             })
         } catch (e: MqttException) {
