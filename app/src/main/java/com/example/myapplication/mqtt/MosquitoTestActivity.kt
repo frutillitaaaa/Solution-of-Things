@@ -194,7 +194,7 @@ class MosquitoTestActivity : AppCompatActivity() {
         val host = hostWithPort.split(":")[0]
         
         return when {
-            host == "test.mosquitto.org" -> "ws://$host:8080"
+            host == "test.mosquitto.org" -> "tcp://$host:1883"
             brokerUri.startsWith("ssl://") -> "wss://$hostWithPort"
             else -> "ws://$hostWithPort"
         }
