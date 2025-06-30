@@ -66,6 +66,8 @@ unsigned long lastStatusMsg = 0;
 const long mqttInterval = 10000;      // 10 segundos
 const long statusInterval = 30000;    // 30 segundos
 
+bool motorOcupado = false;
+
 // Función para parpadear LED
 void blinkLED() {
   static unsigned long lastBlink = 0;
@@ -82,13 +84,12 @@ void mqttCallback(char* topic, byte* payload, unsigned int length) {
   Serial.print("📨 MQTT recibido en [");
   Serial.print(topic);
   Serial.print("] ");
-  
   String message = "";
   for (int i = 0; i < length; i++) {
     message += (char)payload[i];
   }
-  Serial.println(message);
-  
+  Serial.println(message); // Imprime todos los mensajes recibidos
+
   // Procesar mensaje según el tópico
   if (String(topic) == topic_test) {
     handleTestMessage(message);
@@ -162,13 +163,21 @@ void handleConfigMessage(String message) {
 // Manejar mensajes de motor
 void handleMotorMessage(String message) {
   if (message.equalsIgnoreCase("GIRO")) {
+    if (motorOcupado) {
+      Serial.println("⚠️ Motor ocupado, ignorando comando.");
+      return;
+    }
+    motorOcupado = true;
     Serial.println("🔄 Girando motor 3 segundos...");
     digitalWrite(IN1, HIGH);
     digitalWrite(IN2, LOW);
-    analogWrite(ENA, 200); // Velocidad (0-255)
+    analogWrite(ENA, 255); // Velocidad (0-255)
     delay(3000);
     analogWrite(ENA, 0);
+    digitalWrite(IN1, LOW);   // Asegura que el motor se detenga completamente
+    digitalWrite(IN2, LOW);   // Asegura que el motor se detenga completamente
     Serial.println("⏹️ Motor detenido");
+    motorOcupado = false;
   }
 }
 

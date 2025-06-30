@@ -217,12 +217,12 @@ class MosquitoTestActivity : AppCompatActivity() {
     }
 
     private fun convertToWebSocketUri(brokerUri: String): String {
-        // Paho espera un formato como "ws://host:port"
+        // Paho espera un formato como "tcp://host:port"
         val hostWithPort = brokerUri.removePrefix("tcp://").removePrefix("ssl://")
         val host = hostWithPort.split(":")[0]
         
         return when {
-            host == "test.mosquitto.org" -> "ws://$host:8080"
+            host == "test.mosquitto.org" -> "tcp://$host:1883"
             brokerUri.startsWith("ssl://") -> "wss://$hostWithPort"
             else -> "ws://$hostWithPort"
         }
