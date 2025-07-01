@@ -70,11 +70,14 @@ class LoginActivity : AppCompatActivity() {
             try {
                 val response = ApiClient.apiService.login(request)
                 if (response.isSuccessful) {
-                    val nombre = response.body()?.nombre
-                    if (nombre != null) {
+                    val usuario = response.body()
+                    if (usuario != null) {
+                        Log.d("LOGIN_RESPONSE", "ID del usuario recibido: ${usuario.id}")
                         prefManager.saveLoginStatus(true)
                         prefManager.saveUserEmail(email)
-                        prefManager.saveUserName(nombre)
+                        prefManager.saveUserName(usuario.nombre)
+                        prefManager.saveUserId(usuario.id)
+                        Log.d("DEBUG_PREFS", "ID guardado: ${usuario.id}, leído al instante: ${prefManager.getUserId()}")
                         navigateToMain()
                     } else {
                         Toast.makeText(this@LoginActivity, "Token inválido", Toast.LENGTH_SHORT).show()

@@ -14,7 +14,9 @@ class PrefManager(context: Context) {
     fun saveUserEmail(email: String) {
         pref.edit().putString("USER_EMAIL", email).apply()
     }
-
+    fun saveUserId(id: Int) {
+        pref.edit().putInt("USER_ID", id).apply()
+    }
     fun getUserEmail(): String? = pref.getString("USER_EMAIL", null)
 
     fun isLoggedIn(): Boolean = pref.getBoolean("IS_LOGGED_IN", false)
@@ -26,6 +28,8 @@ class PrefManager(context: Context) {
     fun saveUserName(name: String) {
         pref.edit().putString("USER_NAME", name).apply()
     }
+
+    fun getUserId(): Int = pref.getInt("USER_ID", -1)
 
 
 }
