@@ -361,7 +361,21 @@ class MosquitoTestActivity : AppCompatActivity() {
 
     private fun updateStatus(status: String) {
         binding.tvStatus.text = status
-        binding.tvStatus.setTextColor(if (isConnected) 0xFF4CAF50.toInt() else 0xFFFF0000.toInt())
+        when (status) {
+            "Conectado" -> {
+                binding.tvStatus.setTextColor(0xFF4CAF50.toInt()) // Verde
+            }
+            "Desconectado" -> {
+                binding.tvStatus.setTextColor(0xFFFF0000.toInt()) // Rojo
+            }
+            "Conexión perdida" -> {
+                binding.tvStatus.setTextColor(0xFFFFA000.toInt()) // Naranja
+            }
+            else -> {
+                binding.tvStatus.setTextColor(0xFF000000.toInt()) // Negro
+            }
+        }
+        Toast.makeText(this, status, Toast.LENGTH_SHORT).show()
     }
 
     private fun addMessage(message: String) {
