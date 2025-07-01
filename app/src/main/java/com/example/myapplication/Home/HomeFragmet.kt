@@ -63,19 +63,8 @@ class HomeFragment : Fragment() {
         val registeredUsers = sharedPreferencesManager.getRegisteredUsers()
 
         // Sample data for testing if no users are registered
-        val sampleUsers = if (registeredUsers.isEmpty()) {
-            listOf(
-                User("Elynn Lee", "elynn@example.net", ""),
-                User("Oscar Dum", "oscar@example.net", ""),
-                User("Carlo Emilion", "carlo@example.net", ""),
-                User("Daniel Jay Park", "daniel@example.net", ""),
-                User("Mark Rojas", "mark@example.net", "")
-            )
-        } else {
-            registeredUsers
-        }
 
-        // Update the adapter with users
-        usersAdapter.updateUsers(sampleUsers)
+
+        // Update the adapter with user
     }
 }
