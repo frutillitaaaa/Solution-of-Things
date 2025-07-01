@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.myapplication.API.ApiClient
+import com.example.myapplication.alimentacion.AlimentacionActivity
 import com.example.myapplication.auth.models.LoginRequest
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.main.MainActivity
@@ -70,11 +71,17 @@ class LoginActivity : AppCompatActivity() {
             try {
                 val response = ApiClient.apiService.login(request)
                 if (response.isSuccessful) {
-                    val nombre = response.body()?.nombre
-                    if (nombre != null) {
+                    val usuario = response.body()
+                    if (usuario != null) {
                         prefManager.saveLoginStatus(true)
                         prefManager.saveUserEmail(email)
-                        prefManager.saveUserName(nombre)
+                        prefManager.saveUserName(usuario.nombre)
+
+                        val intent = Intent(this@LoginActivity, AlimentacionActivity::class.java)
+                        intent.putExtra("userId", usuario.id)
+                        startActivity(intent)
+                        finish()
+
                         navigateToMain()
                     } else {
                         Toast.makeText(this@LoginActivity, "Token inválido", Toast.LENGTH_SHORT).show()

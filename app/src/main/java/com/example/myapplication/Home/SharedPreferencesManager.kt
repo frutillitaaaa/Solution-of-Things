@@ -55,4 +55,8 @@ class SharedPreferencesManager(context: Context) {
     fun clearCurrentUser() {
         sharedPreferences.edit().remove(KEY_CURRENT_USER).apply()
     }
+
+    fun getCurrentUserId(): Int {
+        return getCurrentUser()?.id ?: -1
+    }
 }

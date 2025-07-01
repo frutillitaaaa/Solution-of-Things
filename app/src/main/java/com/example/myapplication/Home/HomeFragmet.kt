@@ -65,11 +65,8 @@ class HomeFragment : Fragment() {
         // Sample data for testing if no users are registered
         val sampleUsers = if (registeredUsers.isEmpty()) {
             listOf(
-                User("Elynn Lee", "elynn@example.net", ""),
-                User("Oscar Dum", "oscar@example.net", ""),
-                User("Carlo Emilion", "carlo@example.net", ""),
-                User("Daniel Jay Park", "daniel@example.net", ""),
-                User("Mark Rojas", "mark@example.net", "")
+                User(1, "Elynn Lee", "elynn@example.net", "122333333"),
+
             )
         } else {
             registeredUsers

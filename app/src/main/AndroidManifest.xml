@@ -51,7 +51,7 @@
         <activity
             android:name=".mqtt.MosquitoTestActivity"
             android:exported="false" />
-
+        <activity android:name=".alimentacion.AlimentacionActivity" />
         <!-- Servicio para el cliente MQTT de Paho -->
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 

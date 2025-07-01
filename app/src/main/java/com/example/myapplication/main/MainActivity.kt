@@ -15,12 +15,14 @@ import android.net.NetworkCapabilities
 import android.content.Context
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.example.myapplication.utils.SharedPreferencesManager
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var prefManager: PrefManager
+    private lateinit var sharedPrefManager: SharedPreferencesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(binding.root)
 
         prefManager = PrefManager(this)
+        sharedPrefManager = SharedPreferencesManager(this)
 
         setSupportActionBar(binding.toolbar)
 
@@ -56,12 +59,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_profile -> {
                 startActivity(Intent(this, ProfileActivity::class.java))
             }
+            R.id.nav_alimentaciones -> {
+                val userId = sharedPrefManager.getCurrentUserId()
+                val intent = Intent(this, com.example.myapplication.alimentacion.AlimentacionActivity::class.java)
+                intent.putExtra("userId", userId)
+                startActivity(intent)
+            }
             R.id.nav_pair_device -> {
                 startActivity(Intent(this, com.example.myapplication.wifi.BluetoothScanActivity::class.java))
             }
             R.id.nav_mosquito_test -> {
                 startActivity(Intent(this, com.example.myapplication.mqtt.MosquitoTestActivity::class.java))
             }
+
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
