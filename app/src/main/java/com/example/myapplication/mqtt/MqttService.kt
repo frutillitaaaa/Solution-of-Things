@@ -163,13 +163,25 @@ class MqttService : Service() {
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 
+    private fun sendConnectionLost() {
+        val intent = Intent("MQTT_CONNECTION_LOST")
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+    }
+
+    private fun sendConnectionRestored() {
+        val intent = Intent("MQTT_CONNECTION_RESTORED")
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+    }
+
     private fun setupMqttCallback() {
         mqttClient.setCallback(object : MqttCallbackExtended {
             override fun connectComplete(reconnect: Boolean, serverURI: String?) {
                 isConnected = true
+                sendConnectionRestored()
             }
             override fun connectionLost(cause: Throwable?) {
                 isConnected = false
+                sendConnectionLost()
                 reconnect()
             }
             override fun messageArrived(topic: String?, message: MqttMessage?) {

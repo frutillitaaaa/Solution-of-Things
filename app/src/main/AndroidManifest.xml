@@ -54,6 +54,8 @@
 
         <!-- Servicio para el cliente MQTT de Paho -->
         <service android:name="org.eclipse.paho.android.service.MqttService" />
+        <!-- Servicio personalizado para mantener la conexión MQTT -->
+        <service android:name=".mqtt.MqttService" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

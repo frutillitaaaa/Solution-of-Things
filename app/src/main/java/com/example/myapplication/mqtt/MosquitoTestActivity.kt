@@ -47,6 +47,12 @@ class MosquitoTestActivity : AppCompatActivity() {
                 val timestamp = java.text.SimpleDateFormat("HH:mm:ss", java.util.Locale.getDefault()).format(java.util.Date())
                 val receivedMessage = "[$timestamp] Mensaje de '$topic': $message"
                 addMessage(receivedMessage)
+            } else if (intent?.action == "MQTT_CONNECTION_LOST") {
+                isConnected = false
+                updateStatus("Conexión perdida")
+            } else if (intent?.action == "MQTT_CONNECTION_RESTORED") {
+                isConnected = true
+                updateStatus("Conectado")
             }
         }
     }
@@ -94,6 +100,7 @@ class MosquitoTestActivity : AppCompatActivity() {
         }
         mqttService?.connect(serverUri, clientId) { success, serverURI ->
             runOnUiThread {
+                isConnected = success
                 if (success) {
                     updateStatus("Conectado")
                     Toast.makeText(this, "Conectado exitosamente a $serverURI", Toast.LENGTH_SHORT).show()
@@ -107,6 +114,7 @@ class MosquitoTestActivity : AppCompatActivity() {
 
     private fun disconnectFromMqtt() {
         mqttService?.disconnect()
+        isConnected = false
         updateStatus("Desconectado")
         Toast.makeText(this, "Desconectado exitosamente", Toast.LENGTH_SHORT).show()
     }
