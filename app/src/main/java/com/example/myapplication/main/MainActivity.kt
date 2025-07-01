@@ -16,6 +16,11 @@ import android.content.Context
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.example.myapplication.utils.SharedPreferencesManager
+import android.app.TimePickerDialog
+import android.os.Handler
+import android.widget.Button
+import android.widget.Toast
+import com.example.myapplication.mqtt.GlobalMqttClient
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -51,6 +56,48 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             prefManager.clearSession()
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
+        }
+
+        val btnAlimentarMascota = findViewById<Button>(R.id.btnAlimentarMascota)
+        val btnProgramarAlimentacion = findViewById<Button>(R.id.btnProgramarAlimentacion)
+
+        btnAlimentarMascota.setOnClickListener {
+            if (GlobalMqttClient.isConnected()) {
+                GlobalMqttClient.publish("esp32/motor", "GIRO")
+                Toast.makeText(this, "Comando enviado: Alimentar Mascota", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "No hay conexión MQTT activa", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        btnProgramarAlimentacion.setOnClickListener {
+            val calendar = java.util.Calendar.getInstance()
+            val hour = calendar.get(java.util.Calendar.HOUR_OF_DAY)
+            val minute = calendar.get(java.util.Calendar.MINUTE)
+            val timePicker = TimePickerDialog(this, { _, selectedHour, selectedMinute ->
+                val horaSeleccionada = String.format("%02d:%02d", selectedHour, selectedMinute)
+                val calendarAhora = java.util.Calendar.getInstance()
+                val calendarProgramada = java.util.Calendar.getInstance().apply {
+                    set(java.util.Calendar.HOUR_OF_DAY, selectedHour)
+                    set(java.util.Calendar.MINUTE, selectedMinute)
+                    set(java.util.Calendar.SECOND, 0)
+                    set(java.util.Calendar.MILLISECOND, 0)
+                    if (before(calendarAhora)) {
+                        add(java.util.Calendar.DAY_OF_MONTH, 1)
+                    }
+                }
+                val delayMillis = calendarProgramada.timeInMillis - calendarAhora.timeInMillis
+                Toast.makeText(this, "Alimentación programada para las $horaSeleccionada", Toast.LENGTH_LONG).show()
+                Handler(mainLooper).postDelayed({
+                    for (i in 1..3) {
+                        if (GlobalMqttClient.isConnected()) {
+                            GlobalMqttClient.publish("esp32/motor", "GIRO")
+                        }
+                    }
+                    Toast.makeText(this, "Comando de giro enviado 3 veces", Toast.LENGTH_SHORT).show()
+                }, delayMillis)
+            }, hour, minute, true)
+            timePicker.show()
         }
     }
 
