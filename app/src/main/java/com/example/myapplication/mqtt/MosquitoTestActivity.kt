@@ -26,6 +26,11 @@ class MosquitoTestActivity : AppCompatActivity() {
     private var horaAlmuerzo: String? = null
     private var horaMerienda: String? = null
     private var horaCena: String? = null
+    private var autoConnectHandler: Handler? = null
+    private var autoConnectRunnable: Runnable? = null
+    private val PREFS_NAME = "mqtt_prefs"
+    private val PREF_BROKER = "broker"
+    private val PREF_CLIENT_ID = "client_id"
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -61,6 +66,8 @@ class MosquitoTestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMosquitoTestBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // Cargar últimos datos guardados
+        cargarUltimosDatos()
         // Iniciar y enlazar el servicio
         val intent = Intent(this, MqttService::class.java)
         startService(intent)
@@ -71,6 +78,8 @@ class MosquitoTestActivity : AppCompatActivity() {
             IntentFilter(MqttService.ACTION_MQTT_MESSAGE)
         )
         setupUI()
+        // Intentar conexión automática
+        iniciarAutoConexion()
     }
 
     private fun setupUI() {
@@ -91,11 +100,24 @@ class MosquitoTestActivity : AppCompatActivity() {
         binding.btnConfirmarCena.setOnClickListener { confirmarProgramacionComida("cena") }
     }
 
+    private fun cargarUltimosDatos() {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val broker = prefs.getString(PREF_BROKER, "tcp://test.mosquitto.org:1883")
+        val clientId = prefs.getString(PREF_CLIENT_ID, "AndroidClient")
+        binding.etBroker.setText(broker)
+        binding.etClientId.setText(clientId)
+    }
+
+    private fun guardarUltimosDatos(broker: String, clientId: String) {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putString(PREF_BROKER, broker).putString(PREF_CLIENT_ID, clientId).apply()
+    }
+
     private fun connectToMqtt() {
         val serverUri = binding.etBroker.text.toString()
         val clientId = binding.etClientId.text.toString()
         if (serverUri.isEmpty() || clientId.isEmpty()) {
-            Toast.makeText(this, "Por favor completa Broker y Cliente ID", Toast.LENGTH_SHORT).show()
+            updateStatus("Desconectado")
             return
         }
         mqttService?.connect(serverUri, clientId) { success, serverURI ->
@@ -104,6 +126,10 @@ class MosquitoTestActivity : AppCompatActivity() {
                 if (success) {
                     updateStatus("Conectado")
                     Toast.makeText(this, "Conectado exitosamente a $serverURI", Toast.LENGTH_SHORT).show()
+                    // Guardar datos usados
+                    guardarUltimosDatos(serverUri, clientId)
+                    // Detener reintentos automáticos
+                    autoConnectHandler?.removeCallbacks(autoConnectRunnable!!)
                 } else {
                     updateStatus("Error al conectar")
                     Toast.makeText(this, "Error al conectar", Toast.LENGTH_LONG).show()
@@ -386,12 +412,26 @@ class MosquitoTestActivity : AppCompatActivity() {
         }
     }
 
+    private fun iniciarAutoConexion() {
+        autoConnectHandler = Handler(mainLooper)
+        autoConnectRunnable = object : Runnable {
+            override fun run() {
+                if (!isConnected) {
+                    connectToMqtt()
+                    autoConnectHandler?.postDelayed(this, 5000)
+                }
+            }
+        }
+        autoConnectHandler?.post(autoConnectRunnable!!)
+    }
+
     override fun onDestroy() {
         if (isServiceBound) {
             unbindService(serviceConnection)
             isServiceBound = false
         }
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mqttMessageReceiver)
+        autoConnectHandler?.removeCallbacks(autoConnectRunnable!!)
         super.onDestroy()
     }
 } 
