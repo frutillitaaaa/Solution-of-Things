@@ -1,8 +1,7 @@
 package com.example.myapplication.alimentacion.models
 
 data class AlimentacionRequest(
-    val userId: Int,
-    val numeroComida: Int,
+    val numero_comida: Int,
     val hora: String,
-    val cantidadComida: Int
+    val cantidad_comida: Int
 )

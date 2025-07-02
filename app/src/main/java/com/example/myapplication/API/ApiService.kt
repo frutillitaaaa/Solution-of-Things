@@ -22,14 +22,16 @@ interface ApiService {
     @POST("auth/registro")
     suspend fun register(@Body request: RegistroRequest): Response<RegistroResponse>
 
-    @GET("alimentaciones/{id}")
-    suspend fun getAlimentaciones(@Path("id") userId: Int): Response<List<AlimentacionResponse>>
+    @GET("usuario/{id_usuario}/alimentaciones")
+    suspend fun getAlimentaciones(
+        @Path("id_usuario") userId: Int
+    ): Response<List<AlimentacionResponse>>
 
-    @POST("alimentaciones/{id}")
-    suspend fun crearAlimentaciones(@Path("id") userId: Int, @Body request: AlimentacionRequest): Response<AlimentacionResponse>
-
-    @PUT("alimentaciones/{id}")
-    suspend fun updateAlimentacion(@Path("id") id: Int, @Body request: AlimentacionRequest): Response<AlimentacionResponse>
+    @POST("alimentaciones/usuario/{id_usuario}/alimentaciones")
+    suspend fun crearAlimentaciones(
+        @Path("id_usuario") idUsuario: Int,
+        @Body alimentacion: AlimentacionRequest
+    ): Response<AlimentacionResponse>
 
     @DELETE("alimentaciones/{id}")
     suspend fun deleteAlimentacion(@Path("id") id: Int): Response<AlimentacionResponse>

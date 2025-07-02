@@ -6,18 +6,13 @@ import com.example.myapplication.alimentacion.models.AlimentacionResponse
 
 class AlimentacionRepository (private val api: ApiService) {
 
-    suspend fun obtenerAlimentaciones(userId: Int): List<AlimentacionResponse>? {
-        val response = api.getAlimentaciones(userId)
+    suspend fun obtenerAlimentaciones(id_usuario: Int): List<AlimentacionResponse>? {
+        val response = api.getAlimentaciones(id_usuario)
         return if (response.isSuccessful) response.body() else null
     }
 
-    suspend fun crearAlimentacion(userId: Int, request: AlimentacionRequest): AlimentacionResponse? {
-        val response = api.crearAlimentaciones(userId, request)
-        return if (response.isSuccessful) response.body() else null
-    }
-
-    suspend fun actualizarAlimentacion(id: Int, request: AlimentacionRequest): AlimentacionResponse? {
-        val response = api.updateAlimentacion(id, request)
+    suspend fun crearAlimentacion(id_usuario: Int, request: AlimentacionRequest): AlimentacionResponse? {
+        val response = api.crearAlimentaciones(id_usuario, request)
         return if (response.isSuccessful) response.body() else null
     }
 

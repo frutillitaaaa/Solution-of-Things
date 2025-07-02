@@ -14,10 +14,10 @@ class AlimentacionViewModel(
     private val _alimentaciones = MutableLiveData<List<AlimentacionResponse>>()
     val alimentaciones: LiveData<List<AlimentacionResponse>> = _alimentaciones
 
-    fun cargarAlimentaciones(userId: Int) {
+    fun cargarAlimentaciones(id_usuario: Int) {
         viewModelScope.launch {
             try {
-                val result = repository.obtenerAlimentaciones(userId)
+                val result = repository.obtenerAlimentaciones(id_usuario)
                 _alimentaciones.postValue(result ?: emptyList())
             } catch (e: Exception) {
                 Log.e("ViewModel", "Error al obtener: ${e.message}")
@@ -26,33 +26,24 @@ class AlimentacionViewModel(
     }
 
 
-    fun crearAlimentacion(userId: Int, request: AlimentacionRequest) {
+    fun crearAlimentacion(id_usuario: Int, request: AlimentacionRequest) {
         viewModelScope.launch {
             try {
-                repository.crearAlimentacion(userId, request)
-                cargarAlimentaciones(userId)
+                repository.crearAlimentacion(id_usuario, request)
+                cargarAlimentaciones(id_usuario)
             } catch (e: Exception) {
                 Log.e("ViewModel", "Error al crear: ${e.message}")
             }
         }
     }
 
-    fun actualizarAlimentacion(id: Int, request: AlimentacionRequest, userId: Int) {
-        viewModelScope.launch {
-            try {
-                repository.actualizarAlimentacion(id, request)
-                cargarAlimentaciones(userId)
-            } catch (e: Exception) {
-                Log.e("ViewModel", "Error al actualizar: ${e.message}")
-            }
-        }
-    }
 
-    fun eliminarAlimentacion(id: Int, userId: Int) {
+
+    fun eliminarAlimentacion(id: Int, id_usuario: Int) {
         viewModelScope.launch {
             try {
                 repository.eliminarAlimentacion(id)
-                cargarAlimentaciones(userId)
+                cargarAlimentaciones(id_usuario)
             } catch (e: Exception) {
                 Log.e("ViewModel", "Error al eliminar: ${e.message}")
             }

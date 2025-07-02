@@ -1,127 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layoutAlimentacion"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnCargar"
+    <LinearLayout
+        android:id="@+id/layoutAlimentacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cargar Alimentaciones" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <Button
-        android:id="@+id/btnCrear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Crear Alimentación" />
+        <Button
+            android:id="@+id/btnCargar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cargar Alimentaciones" />
 
-    <TextView
-        android:id="@+id/txtResultado"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="Aquí se mostrará el resultado..."
-        android:textSize="16sp"
-        android:paddingTop="20dp" />
+        <TextView
+            android:id="@+id/txtResultado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Aquí se mostrará el resultado..."
+            android:textSize="16sp"
+            android:paddingTop="20dp" />
 
+        <Button
+            android:id="@+id/btnGirarMotor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Alimentación manual (1 porción)" />
 
-    <Button
-        android:id="@+id/btnGirarMotor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Alimentación manual (1 porción)" />
+        <!-- Desayuno -->
+        <EditText
+            android:id="@+id/etHoraDesayuno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hora Desayuno" />
 
-    <EditText
-        android:id="@+id/etHoraProgramada"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Hora manual" />
+        <Spinner
+            android:id="@+id/spCantidadDesayuno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/btnProgramarHora"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Programar Hora" />
+        <Button
+            android:id="@+id/btnSeleccionarDesayuno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar Hora Desayuno" />
 
-    <Button
-        android:id="@+id/btnConfirmarProgramacion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Confirmar Programación" />
+        <Button
+            android:id="@+id/btnConfirmarDesayuno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirmar Desayuno" />
 
-    <EditText
-        android:id="@+id/etHoraDesayuno"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Hora Desayuno" />
+        <!-- Almuerzo -->
+        <EditText
+            android:id="@+id/etHoraAlmuerzo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hora Almuerzo" />
 
-    <Button
-        android:id="@+id/btnSeleccionarDesayuno"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Seleccionar Hora Desayuno" />
+        <Spinner
+            android:id="@+id/spCantidadAlmuerzo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/btnConfirmarDesayuno"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Confirmar Desayuno" />
+        <Button
+            android:id="@+id/btnSeleccionarAlmuerzo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar Hora Almuerzo" />
 
-    <EditText
-        android:id="@+id/etHoraAlmuerzo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Hora Almuerzo" />
+        <Button
+            android:id="@+id/btnConfirmarAlmuerzo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirmar Almuerzo" />
 
-    <Button
-        android:id="@+id/btnSeleccionarAlmuerzo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Seleccionar Hora Almuerzo" />
+        <!-- Cena -->
+        <EditText
+            android:id="@+id/etHoraCena"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hora Cena" />
 
-    <Button
-        android:id="@+id/btnConfirmarAlmuerzo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Confirmar Almuerzo" />
+        <Spinner
+            android:id="@+id/spCantidadCena"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/etHoraMerienda"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Hora Merienda" />
+        <Button
+            android:id="@+id/btnSeleccionarCena"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar Hora Cena" />
 
-    <Button
-        android:id="@+id/btnSeleccionarMerienda"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Seleccionar Hora Merienda" />
+        <Button
+            android:id="@+id/btnConfirmarCena"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirmar Cena" />
 
-    <Button
-        android:id="@+id/btnConfirmarMerienda"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Confirmar Merienda" />
+        <!-- Cuarta Comida -->
+        <EditText
+            android:id="@+id/etHoraCuartaComida"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hora Cuarta Comida" />
 
-    <EditText
-        android:id="@+id/etHoraCena"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Hora Cena" />
+        <Spinner
+            android:id="@+id/spCantidadCuartaComida"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/btnSeleccionarCena"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Seleccionar Hora Cena" />
+        <Button
+            android:id="@+id/btnSeleccionarCuartaComida"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar Hora Cuarta Comida" />
 
-    <Button
-        android:id="@+id/btnConfirmarCena"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Confirmar Cena" />
+        <Button
+            android:id="@+id/btnConfirmarCuartaComida"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirmar Cuarta Comida" />
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
