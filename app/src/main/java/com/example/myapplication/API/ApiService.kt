@@ -22,7 +22,7 @@ interface ApiService {
     @POST("auth/registro")
     suspend fun register(@Body request: RegistroRequest): Response<RegistroResponse>
 
-    @GET("usuario/{id_usuario}/alimentaciones")
+    @GET("alimentaciones/usuario/{id_usuario}/alimentaciones")
     suspend fun getAlimentaciones(
         @Path("id_usuario") userId: Int
     ): Response<List<AlimentacionResponse>>
